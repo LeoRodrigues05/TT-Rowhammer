@@ -1,0 +1,37 @@
+- program_created:
+    id: 0
+    timestamp_ns: 1770923778702221542
+- program_compile_started:
+    id: 0
+    timestamp_ns: 1770923778702748627
+- program_kernel_compile_finished:
+    id: 0
+    timestamp_ns: 1770923778711145683
+    duration_ns: 8397056
+    watcher_kernel_id: 3
+    name: cq_dispatch_subordinate
+    path: /home/noahweaver/.cache/tt-metal-cache/dc2d24123d/6679966354375388793/kernels/cq_dispatch_subordinate/10566546871113812363/
+    source: tt_metal/impl/dispatch/kernels/cq_dispatch_subordinate.cpp
+- program_kernel_compile_finished:
+    id: 0
+    timestamp_ns: 1770923778712894855
+    duration_ns: 10146228
+    watcher_kernel_id: 1
+    name: cq_prefetch
+    path: /home/noahweaver/.cache/tt-metal-cache/dc2d24123d/6679966354375388793/kernels/cq_prefetch/662056554663358342/
+    source: tt_metal/impl/dispatch/kernels/cq_prefetch.cpp
+- program_kernel_compile_finished:
+    id: 0
+    timestamp_ns: 1770923778718170203
+    duration_ns: 15421576
+    watcher_kernel_id: 2
+    name: cq_dispatch
+    path: /home/noahweaver/.cache/tt-metal-cache/dc2d24123d/6679966354375388793/kernels/cq_dispatch/2335384329051428631/
+    source: tt_metal/impl/dispatch/kernels/cq_dispatch.cpp
+- program_compile_finished:
+    id: 0
+    timestamp_ns: 1770923778723932386
+    duration_ns: 21183759
+- program_destroyed:
+    id: 0
+    timestamp_ns: 1770923779058344915

@@ -1,0 +1,28 @@
+# Column Independence Test
+# Date: 2026-02-27
+# Target: DRAM Bank 0, NOC (0,1)
+# Base address: 0x000000 (Row 0)
+# Row size: 8KB (8192 bytes)
+# Measurement: alternating A-B reads, 8 pairs, 64 samples, median
+
+# offset_hex  offset_dec  column  latency_median  mean  stddev  result
+0x0000      0    0   833  842.2  19.6  Same row  PASS
+0x0040     64    1   833  842.8  20.0  Same row  PASS
+0x0080    128    2   833  839.6  16.6  Same row  PASS
+0x0100    256    4   833  846.9  23.4  Same row  PASS
+0x0200    512    8   833  850.5  55.4  Same row  PASS
+0x0400   1024   16   833  842.4  20.0  Same row  PASS
+0x0800   2048   32   833  840.8  19.1  Same row  PASS
+0x0c00   3072   48   833  843.0  21.0  Same row  PASS
+0x1000   4096   64   833  841.8  19.6  Same row  PASS
+0x1400   5120   80   833  842.0  19.1  Same row  PASS
+0x1800   6144   96   833  842.2  20.3  Same row  PASS
+0x1c00   7168  112   833  841.6  19.6  Same row  PASS
+0x1fc0   8128  127   833  844.1  21.7  Same row  PASS
+0x1fff   8191  127   873  875.5  10.9  Cross row PASS (expected)
+
+# Summary (cacheline-aligned same-row tests)
+# min=833 max=833 mean=833.0 stddev=0.0 range=0
+# Results: 14/14 passed
+# Note: 0x1FFF correctly shows cross-row latency (64B read spans boundary)
+# Conclusion: COLUMN INDEPENDENCE VALIDATED

@@ -1,0 +1,4 @@
+0: blank
+3: /home/noahweaver/.cache/tt-metal-cache/dc2d24123d/6679966354375388793/kernels/cq_dispatch_subordinate/10566546871113812363//ncrisc/ncrisc.elf
+1: /home/noahweaver/.cache/tt-metal-cache/dc2d24123d/6679966354375388793/kernels/cq_prefetch/662056554663358342//brisc/brisc.elf
+2: /home/noahweaver/.cache/tt-metal-cache/dc2d24123d/6679966354375388793/kernels/cq_dispatch/2335384329051428631//brisc/brisc.elf

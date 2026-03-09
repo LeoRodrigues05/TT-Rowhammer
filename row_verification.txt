@@ -1,0 +1,14 @@
+# Experiment 2: Row Size Verification (row_size=8192)
+# addr_a  addr_b  description  median  mean  stddev
+0  64  "Same row, 64B apart"  833  844.875  22.2258
+0  4096  "Same row, half-row apart"  833  841  18.9737
+0  8128  "Same row, edge (row_size-64)"  833  843.875  21.6503
+0  8192  "Different row, 1 row apart"  873  871.5  9.98749
+0  8256  "Different row, row+64B"  873  869.5  11.9896
+0  16384  "Different row, 2 rows apart"  873  870.25  11.333
+0  32768  "Different row, 4 rows apart"  873  871.625  9.11643
+0  65536  "Different row, 8 rows apart"  873  870.625  10.2645
+8192  12288  "Row 1 internal, half apart"  833  843.25  21.3293
+8192  16384  "Row 1 vs Row 2"  873  870.75  11.8717
+64  4160  "Same row, non-aligned"  833  841.25  18.2192
+64  8256  "Different row, non-aligned"  873  872  9.43398
