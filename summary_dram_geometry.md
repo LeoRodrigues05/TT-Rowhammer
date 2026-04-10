@@ -1,4 +1,6 @@
-# Blackhole DRAM Geometry (Bank 0)
+# Blackhole DRAM Geometry
+
+**Memory technology:** GDDR6 (8 physical channels, accessed via NOC endpoints)
 
 ## Confirmed Parameters
 
@@ -7,7 +9,7 @@
 | **Row size** | **8192 bytes (8KB)** | Bit-toggle test: bit 13 is first ROW bit. Conflict matrix: 8KB blocks. |
 | **Column select bits** | **[0:12]** (bits 0-12) | Toggling any bit 6-12 produces same-row latency (833 cycles) |
 | **Row select bits** | **[13:25+]** | Toggling any bit 13+ produces different-row latency (873-897 cycles) |
-| **Rows per bank** | ~524,288 | 4GB / 8KB = 524,288 rows |
+| **Rows per channel view** | ~524,288 | 4GB / 8KB = 524,288 rows (per `dram_view_size`) |
 | **Address mapping** | Sequential, no XOR | But with 8KB granularity (see interleaving note) |
 
 ## Address Mapping
@@ -76,7 +78,9 @@ This 24-cycle difference suggests two tiers of "different row":
 - **Bits 13-16**: Different row, possibly same bank group or subarray → 873 cycles
 - **Bits 17+**: Different row AND different bank group/subarray → 897 cycles
 
-This may reflect LPDDR5 bank group organization within the DRAM die.
+This likely reflects GDDR6 bank-group organization within the channel (GDDR6
+exposes 4 bank groups × 4 banks per channel, and cross-bank-group activations
+carry a small additional penalty on top of the base tRRD_S/L).
 
 ## Implications for Rowhammer
 
@@ -92,14 +96,27 @@ This may reflect LPDDR5 bank group organization within the DRAM die.
 
 ## NOC Port Behavior
 
-All three NOC ports for Bank 0 — (0,0), (0,1), (0,11) — access the same physical
-DRAM bank. Previous testing showed identical latency across all ports. They are
-parallel access paths to the same memory, not separate banks.
+Each physical GDDR6 channel on Blackhole is exposed through **three NOC0
+sub-ports** (see `tt_metal/soc_descriptors/blackhole_140_arch.yaml`). The three
+sub-ports for channel 0, for example, are (0,0), (0,1), and (0,11) — they are
+three parallel NOC access paths into the same physical GDDR6 channel, not three
+independent banks. Previous testing showed identical latency across all three
+sub-ports of channel 0, so the sub-port choice is irrelevant for row-buffer
+conflict timing.
+
+Note that "bank" is ambiguous in this stack: tt-metal's allocator uses
+`bank_id` for its own per-channel allocator indices, while GDDR6 itself has an
+internal bank/bank-group structure (4 bank groups × 4 banks per channel) that
+is not directly addressable from the NOC. When this document says "channel"
+it means one of the 8 physical GDDR6 channels; when older text says "Bank 0"
+it is referring to the same thing (channel 0).
 
 ## Test Configuration
 
-- Hardware: Blackhole Tenstorrent (4-chip mesh)
+- Hardware: Blackhole Tenstorrent (4-chip mesh), GDDR6 DRAM
 - BRISC clock: 800MHz (1 cycle = 1.25ns)
-- Target: DRAM Bank 0, NOC endpoint (0,1)
+- Original single-channel run: DRAM channel 0, NOC endpoint (0,1), 2026-02-26
+- Multi-channel verification: all 8 physical GDDR6 channels, 2026-04-10
+  (see `validation_bank{0..7}_method{2b,3,5}.txt` and
+  `validation_multibank_summary.txt` — 8/8 channels PASS, identical geometry)
 - Measurement: On-device wall clock, pipelined NOC reads
-- Date: 2026-02-26

@@ -1,0 +1,38 @@
+# VALIDATION METHOD 3: Stride Sweep Around 8KB
+# DRAM channel 6 at NOC (9,4)
+# stride_bytes  median  mean  stddev  classification
+6144  833  839.625  17.5245  Same row
+6272  833  844.125  20.6212  Same row
+6400  833  848.281  23.7497  Same row
+6528  833  845.125  22.847  Same row
+6656  833  844.375  22.1271  Same row
+6784  833  844.375  21.9911  Same row
+6912  833  840.375  17.1058  Same row
+7040  833  843.5  20.9702  Same row
+7168  833  846.5  22.1303  Same row
+7296  833  842.5  20.8267  Same row
+7424  833  844.375  21.9911  Same row
+7552  833  839.875  17.4853  Same row
+7680  833  843.625  25.9251  Same row
+7808  833  844.125  19.8805  Same row
+7936  833  844.375  21.5316  Same row
+8064  833  845.25  29.5962  Same row
+8192  873  872.125  9.39332  Different row (near)  <-- TRANSITION
+8320  873  874  17.9722  Different row (near)
+8448  873  869.969  10.5534  Different row (near)
+8576  873  872.375  18.937  Different row (near)
+8704  873  870.5  11.6512  Different row (near)
+8832  873  871.75  8.9687  Different row (near)
+8960  873  872.875  8.65935  Different row (near)
+9088  873  871.875  10.2827  Different row (near)
+9216  873  870.5  11.565  Different row (near)
+9344  873  872.125  9.91133  Different row (near)
+9472  873  872.375  8.63767  Different row (near)
+9600  873  870.5  11.7367  Different row (near)
+9728  873  873.125  9.84806  Different row (near)
+9856  873  871.125  11.202  Different row (near)
+9984  873  872  10.9087  Different row (near)
+10112  873  873.875  14.9745  Different row (near)
+10240  873  874.75  17.6334  Different row (near)
+# Transition at: 8192 bytes
+# Results: 33/33 passed
