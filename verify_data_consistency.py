@@ -26,14 +26,15 @@ CLASS_THRESHOLD = 850         # device-side threshold: med < 850 ⇒ "same row"
 
 REPO = Path(__file__).resolve().parent
 TT_METAL_ROOT = REPO.parent  # rowhammer/ sits at the top of tt-metal/
+VALIDATION_DIR = REPO / "validation"
 
 FILES = {
     "matrix":      REPO / "conflict_matrix.csv",
-    "validation":  REPO / "validation_8kb_boundaries.txt",
+    "validation":  VALIDATION_DIR / "validation_8kb_boundaries.txt",
     "row_verify":  REPO / "row_verification.txt",
     "bit_map":     REPO / "address_bit_mapping.txt",
     "row_size":    REPO / "row_size_determination.txt",
-    "col_indep":   REPO / "validation_column_independence.txt",
+    "col_indep":   VALIDATION_DIR / "validation_column_independence.txt",
     # The kernel that actually produced conflict_matrix.csv, validation_8kb_
     # boundaries.txt, and the per-bank validation_bank*_method*.txt sweep.
     # This is the canonical kernel referenced by validation_test.cpp and
@@ -46,7 +47,7 @@ FILES = {
 # Optional multi-bank sweep produced by metal_example_validation_multibank_test.
 # For each physical DRAM channel, expects three files: method2b, method3, method5.
 MULTIBANK_CHANNELS = list(range(8))
-MULTIBANK_SUMMARY = REPO / "validation_multibank_summary.txt"
+MULTIBANK_SUMMARY = VALIDATION_DIR / "validation_multibank_summary.txt"
 
 
 class Report:
@@ -613,9 +614,9 @@ def check_multi_bank_gap(rep, kernel_src):
     # First, find any per-bank files on disk
     bank_files = {}
     for ch in MULTIBANK_CHANNELS:
-        m2b = REPO / f"validation_bank{ch}_method2b.txt"
-        m3  = REPO / f"validation_bank{ch}_method3.txt"
-        m5  = REPO / f"validation_bank{ch}_method5.txt"
+        m2b = VALIDATION_DIR / f"validation_bank{ch}_method2b.txt"
+        m3  = VALIDATION_DIR / f"validation_bank{ch}_method3.txt"
+        m5  = VALIDATION_DIR / f"validation_bank{ch}_method5.txt"
         if m2b.exists() and m3.exists() and m5.exists():
             bank_files[ch] = (m2b, m3, m5)
 
