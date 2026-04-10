@@ -1,0 +1,11 @@
+# Blackhole DRAM multi-bank 8KB validation summary
+# channel  noc_x  noc_y  m2b_pass  m2b_fail  m3_pass  m3_fail  m5_pass  m5_fail  verdict
+0  0  1  256  0  33  0  20  0  PASS
+1  0  10  256  0  33  0  20  0  PASS
+2  0  4  256  0  33  0  20  0  PASS
+3  0  7  256  0  33  0  20  0  PASS
+4  9  1  256  0  33  0  20  0  PASS
+5  9  10  256  0  33  0  20  0  PASS
+6  9  4  256  0  33  0  20  0  PASS
+7  9  7  256  0  33  0  20  0  PASS
+# Total failures: 0 across 0/8 channels

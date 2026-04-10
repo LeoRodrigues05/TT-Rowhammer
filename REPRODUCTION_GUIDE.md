@@ -65,7 +65,11 @@ Output files:
 
 ## Step 5: Verify Against Different Hardware
 
-If testing on different LPDDR5 chips, the row size may differ (2KB, 4KB, 16KB are also possible). Run the page mode test first to confirm open-page behavior, then the row mapping test to find the actual row size.
+Blackhole uses GDDR6 (8 physical channels accessed via NOC endpoints). If
+testing on a different GDDR6 SKU or a different DRAM technology entirely
+(GDDR6X, HBM, LPDDR, etc.) the row size may differ (2KB, 4KB, 16KB are also
+possible). Run the page mode test first to confirm open-page behavior, then
+the row mapping test to find the actual row size.
 
 ## Code Locations
 

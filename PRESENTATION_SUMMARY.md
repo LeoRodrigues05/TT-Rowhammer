@@ -1,8 +1,11 @@
 # Blackhole DRAM Geometry: Validated Findings
 
-**Date:** 2026-02-26
-**Hardware:** Tenstorrent Blackhole (4GB LPDDR5 per bank, 8 banks)
-**Target:** DRAM Bank 0, NOC endpoint (0,1)
+**Date:** 2026-02-26 (single-channel), extended 2026-04-10 (all 8 channels)
+**Hardware:** Tenstorrent Blackhole — **GDDR6**, 8 physical channels (~4 GB each)
+**Original target:** DRAM channel 0, NOC endpoint (0,1)
+**Multi-channel verification:** all 8 GDDR6 channels swept via NOC endpoints
+  (0,1), (0,10), (0,4), (0,7), (9,1), (9,10), (9,4), (9,7) — see
+  `validation_multibank_summary.txt`
 **BRISC Clock:** 800MHz (1 cycle = 1.25ns)
 
 ## Key Finding: 8KB Row Size (Validated)
@@ -59,7 +62,10 @@ Byte Address: [31 ........... 13][12 ...... 6][5 ... 0]
 | 13-16 (8KB-64KB) | 873 cycles | Different row, same bank group |
 | 17-25 (128KB-32MB) | 897 cycles | Different row, different bank group |
 
-The 24-cycle difference suggests LPDDR5 bank group structure within the die.
+The 24-cycle difference likely reflects GDDR6 bank-group structure within the
+channel (4 bank groups × 4 banks per channel in standard GDDR6 organization).
+Toggling bits 13-16 stays within one bank group; toggling bit 17+ crosses into
+a different bank group and incurs the extra tRRD_S → tRRD_L transition cost.
 
 ### Address Interleaving
 
@@ -86,15 +92,20 @@ All measurements used:
 
 ## Sources
 
-1. **Empirical measurement** (this work) -- 401 tests, 100% pass rate
-2. **JEDEC JESD209-5** (LPDDR5 standard) -- 8KB row size is standard for 4Gb+ density LPDDR5
-3. No LPDDR5-specific documentation found in tt-metal codebase. Row size was determined purely empirically.
+1. **Empirical measurement** (this work) -- 401 tests, 100% pass rate on channel 0;
+   multi-channel sweep confirms identical geometry on all 8 GDDR6 channels
+2. **JEDEC JESD250** (GDDR6 standard) -- 8KB row size (1 KB × 8 bit-prefetch)
+   is typical for modern GDDR6 devices
+3. No GDDR6-specific documentation found in tt-metal codebase. Row size was
+   determined purely empirically.
 
 ## Validation Status
 
-- [x] All 401 validation tests passed
+- [x] All 401 single-channel validation tests passed
 - [x] 5 independent methods agree
-- [x] Consistent with LPDDR5 JEDEC specifications
+- [x] Multi-channel sweep: all 8 physical GDDR6 channels show identical
+      8KB / bit-13 geometry (see `validation_bank{0..7}_*.txt`)
+- [x] Consistent with GDDR6 JEDEC geometry
 - [x] Validated across 7 different DRAM base addresses (0 to 512MB)
 - [x] Reproducible on all runs
 - [x] Ready for rowhammer experimentation
